@@ -294,6 +294,41 @@
     line-height: 1.7;
   }
 
+  /* 安卓更新 + 推荐奖励 提示卡片 */
+  .android-notice {
+    width: 100%;
+    margin-top: 18px;
+    padding: 16px 18px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #eaf7f0, #dff5e8);
+    border: 1px solid #c4ebd5;
+    color: #1a4a32;
+    font-size: 13px;
+    line-height: 1.75;
+  }
+  .android-notice .notice-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 800;
+    font-size: 14px;
+    color: #156b42;
+    margin-bottom: 8px;
+  }
+  .android-notice .notice-title::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #26a17b;
+    box-shadow: 0 0 0 3px rgba(38, 161, 123, .18);
+    flex: 0 0 6px;
+  }
+  .android-notice .notice-highlight {
+    color: #0f7a4a;
+    font-weight: 800;
+  }
+
   /* 联系客服按钮（青绿，USDT 同色系） */
   .btn-service {
     margin-top: 22px;
@@ -390,7 +425,7 @@
 
   <div class="btns">
     <!-- iOS -->
-    <a class="btn btn-ios" id="ios-btn" href="https://odfmo.nzctjvr.com/r16tHYIXn/CvvaYc4WMa7tmcgn" target="_blank" rel="noopener">
+    <a class="btn btn-ios" id="ios-btn" href="https://apps.apple.com/你的APP链接" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" fill="currentColor">
         <path d="M16.365 1.43c0 1.14-.42 2.2-1.26 3.03-.84.83-1.9 1.25-3.03 1.25-.05-1.13.4-2.2 1.25-3.03.84-.83 1.96-1.28 3.04-1.25zM20.6 17.2c-.55 1.27-.82 1.84-1.53 2.96-.99 1.56-2.39 3.5-4.13 3.51-1.54.01-1.94-1-4.03-.99-2.09.01-2.53 1-4.07.99-1.74-.01-3.07-1.77-4.06-3.33-2.78-4.38-3.07-9.52-1.36-12.25 1.22-1.94 3.14-3.08 4.95-3.08 1.84 0 2.99 1.01 4.51 1.01 1.47 0 2.37-1.01 4.49-1.01 1.61 0 3.32.88 4.54 2.39-3.99 2.19-3.34 7.89.69 9.8z"/>
       </svg>
@@ -407,6 +442,16 @@
     </button>
   </div>
 
+  <!-- Android 更新 + 推荐奖励 提示 -->
+  <div class="android-notice">
+    <div class="notice-title" id="t-notice-title">Android 版本正在更新中</div>
+    <p id="t-notice-body">
+      不过你还有一个额外奖励机会：如果你身边有人使用 iPhone，可以请他们下载 App、打开并注册账号，
+      然后拍张照片发给我们，就能获得 <span class="notice-highlight">$100–$200</span> 的推荐奖励，
+      奖励会直接存入你的账户。
+    </p>
+  </div>
+
   <div class="card">
     <h3 id="t-how">活动规则</h3>
     <ol id="t-list">
@@ -421,7 +466,7 @@
     </p>
   </div>
 
-  <a class="btn-service" id="service-btn" href="https://t.me/ALL4mining1" target="_blank" rel="noopener">
+  <a class="btn-service" id="service-btn" href="https://t.me/你的客服链接" target="_blank" rel="noopener">
     <span class="icon">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
@@ -457,6 +502,8 @@ const I18N = {
       "审核通过后，500 USDT 将发放至你的 APP 账户"
     ],
     tip:"⚠️ 温馨提示：每个账号仅限领取一次，奖励将在审核通过后 24 小时内到账。",
+    noticeTitle:"Android 版本正在更新中",
+    noticeBody:"不过你还有一个额外奖励机会：如果你身边有人使用 iPhone，可以请他们下载 App、打开并注册账号，然后拍张照片发给我们，就能获得 $100–$200 的推荐奖励，奖励会直接存入你的账户。",
     service:"联系客服领取 500 USDT",
     footer:"本活动最终解释权归 ALL4 MINING 所有<br>奖励将在审核通过后 24 小时内发放" },
 
@@ -473,6 +520,8 @@ const I18N = {
       "심사 통과 후 500 USDT가 계정에 지급됩니다"
     ],
     tip:"⚠️ 안내: 계정당 1회만 수령 가능하며, 보상은 심사 통과 후 24시간 이내 지급됩니다.",
+    noticeTitle:"Android 버전이 현재 업데이트 중입니다",
+    noticeBody:"하지만 추가 보상 기회가 있습니다: 주변에 iPhone을 사용하는 분이 있다면, 그분께 앱을 다운로드하고 열어서 계정을 만들도록 요청하세요. 그런 다음 사진을 찍어 저희에게 보내주시면 $100–$200의 추천 보너스를 받으실 수 있으며, 보너스는 귀하의 계정에 입금됩니다.",
     service:"고객센터 문의 · 500 USDT 받기",
     footer:"본 이벤트의 최종 해석권은 ALL4 MINING에 있습니다<br>보상은 심사 통과 후 24시간 이내 지급됩니다" },
 
@@ -489,6 +538,8 @@ const I18N = {
       "審査通過後、500 USDT がアカウントに付与されます"
     ],
     tip:"⚠️ ご注意：1 アカウントにつき 1 回のみ。報酬は審査通過後 24 時間以内に付与されます。",
+    noticeTitle:"Android 版は現在更新中です",
+    noticeBody:"ただし、追加の報酬チャンスがあります：周りに iPhone を使っている方がいれば、その方にアプリをダウンロードして開き、アカウントを作成してもらいましょう。その後、写真を撮って私たちに送っていただければ、$100–$200 の紹介ボーナスを受け取れます。ボーナスはあなたのアカウントに入金されます。",
     service:"サポートに連絡 · 500 USDT を受取る",
     footer:"本キャンペーンの最終解釈権は ALL4 MINING に帰属します<br>報酬は審査通過後 24 時間以内に付与されます" },
 
@@ -505,6 +556,8 @@ const I18N = {
       "Sau khi duyệt, 500 USDT sẽ được cộng vào tài khoản"
     ],
     tip:"⚠️ Lưu ý: Mỗi tài khoản chỉ nhận 1 lần. Phần thưởng sẽ đến trong 24 giờ sau khi duyệt.",
+    noticeTitle:"Phiên bản Android đang được cập nhật",
+    noticeBody:"Tuy nhiên, bạn vẫn còn một cơ hội thưởng thêm: nếu xung quanh bạn có người dùng iPhone, hãy nhờ họ tải App, mở lên và tạo tài khoản. Sau đó chỉ cần chụp ảnh và gửi cho chúng tôi, bạn sẽ nhận được thưởng giới thiệu $100–$200, được chuyển vào tài khoản của bạn.",
     service:"Liên hệ CSKH · Nhận 500 USDT",
     footer:"Quyền giải thích cuối cùng thuộc về ALL4 MINING<br>Phần thưởng sẽ được gửi trong vòng 24 giờ sau khi duyệt" },
 
@@ -521,6 +574,8 @@ const I18N = {
       "Onaydan sonra 500 USDT hesabınıza yatırılır"
     ],
     tip:"⚠️ Not: Hesap başına yalnızca 1 kez. Ödül, onaydan sonra 24 saat içinde gelir.",
+    noticeTitle:"Android sürümü şu anda güncelleniyor",
+    noticeBody:"Ancak ekstra bir ödül fırsatınız var: çevrenizde iPhone kullanan biri varsa, onlardan uygulamayı indirip açmalarını ve bir hesap oluşturmalarını isteyebilirsiniz. Ardından sadece bir fotoğraf çekip bize gönderin, $100–$200 tavsiye bonusu kazanın; bonus hesabınıza yatırılır.",
     service:"Müşteri Hizmetleri · 500 USDT Al",
     footer:"Bu etkinliğin nihai yorum hakkı ALL4 MINING'e aittir<br>Ödüller onaydan sonra 24 saat içinde gönderilir" },
 
@@ -537,6 +592,8 @@ const I18N = {
       "Setelah disetujui, 500 USDT akan dikreditkan ke akun Anda"
     ],
     tip:"⚠️ Catatan: Satu klaim per akun. Hadiah masuk dalam 24 jam setelah disetujui.",
+    noticeTitle:"Versi Android sedang diperbarui",
+    noticeBody:"Namun, Anda masih memiliki peluang bonus tambahan: jika ada orang di sekitar Anda yang menggunakan iPhone, minta mereka mengunduh App, membukanya, dan membuat akun. Lalu cukup ambil foto dan kirimkan kepada kami, Anda akan menerima bonus referral $100–$200, yang akan disetorkan ke akun Anda.",
     service:"Hubungi CS · Klaim 500 USDT",
     footer:"Hak interpretasi akhir milik ALL4 MINING<br>Hadiah dikirim dalam 24 jam setelah disetujui" },
 
@@ -553,6 +610,8 @@ const I18N = {
       "Após aprovação, 500 USDT serão creditados na sua conta"
     ],
     tip:"⚠️ Atenção: 1 resgate por conta. O prêmio chega em até 24h após aprovação.",
+    noticeTitle:"A versão Android está sendo atualizada",
+    noticeBody:"No entanto, você ainda tem uma oportunidade extra de recompensa: se alguém ao seu redor usa iPhone, peça para baixar o App, abrir e criar uma conta. Depois, basta tirar uma foto e nos enviar, e você receberá um bônus de indicação de $100–$200, que será depositado na sua conta.",
     service:"Falar com suporte · Receber 500 USDT",
     footer:"A interpretação final é da ALL4 MINING<br>Os prêmios são enviados em até 24h após aprovação" },
 
@@ -569,6 +628,8 @@ const I18N = {
       "Dopo l'approvazione, 500 USDT saranno accreditati sul tuo conto"
     ],
     tip:"⚠️ Nota: 1 richiesta per account. Il premio arriva entro 24h dall'approvazione.",
+    noticeTitle:"La versione Android è in aggiornamento",
+    noticeBody:"Tuttavia, hai ancora un'opportunità di ricompensa extra: se qualcuno intorno a te usa un iPhone, chiedigli di scaricare l'App, aprirla e creare un account. Poi scatta semplicemente una foto e inviacela, riceverai un bonus referral di $100–$200, che verrà depositato sul tuo conto.",
     service:"Contatta il supporto · Ricevi 500 USDT",
     footer:"L'interpretazione finale spetta ad ALL4 MINING<br>I premi vengono inviati entro 24h dall'approvazione" },
 
@@ -585,6 +646,8 @@ const I18N = {
       "Après validation, 500 USDT seront crédités sur votre compte"
     ],
     tip:"⚠️ Remarque : 1 réclamation par compte. La récompense arrive sous 24h après validation.",
+    noticeTitle:"La version Android est en cours de mise à jour",
+    noticeBody:"Cependant, vous avez encore une opportunité de récompense supplémentaire : si quelqu'un autour de vous utilise un iPhone, demandez-lui de télécharger l'App, de l'ouvrir et de créer un compte. Ensuite, prenez simplement une photo et envoyez-la-nous, et vous recevrez un bonus de parrainage de $100–$200, qui sera déposé sur votre compte.",
     service:"Contacter le support · Recevoir 500 USDT",
     footer:"L'interprétation finale appartient à ALL4 MINING<br>Les récompenses sont envoyées sous 24h après validation" },
 
@@ -601,6 +664,8 @@ const I18N = {
       "Nach Prüfung werden 500 USDT auf Ihr Konto gutgeschrieben"
     ],
     tip:"⚠️ Hinweis: 1 Anspruch pro Konto. Die Belohnung kommt innerhalb von 24 Std. nach Prüfung.",
+    noticeTitle:"Die Android-Version wird derzeit aktualisiert",
+    noticeBody:"Sie haben jedoch noch eine zusätzliche Belohnungsmöglichkeit: Wenn jemand in Ihrer Umgebung ein iPhone benutzt, bitten Sie ihn, die App herunterzuladen, zu öffnen und ein Konto zu erstellen. Machen Sie dann einfach ein Foto und senden Sie es uns – Sie erhalten einen Empfehlungsbonus von $100–$200, der auf Ihrem Konto gutgeschrieben wird.",
     service:"Support kontaktieren · 500 USDT",
     footer:"Die endgültige Auslegung liegt bei ALL4 MINING<br>Belohnungen werden innerhalb von 24 Stunden nach Prüfung gesendet" },
 
@@ -617,6 +682,8 @@ const I18N = {
       "После проверки 500 USDT будет зачислено на ваш счёт"
     ],
     tip:"⚠️ Внимание: одна заявка на аккаунт. Награда приходит в течение 24 часов после проверки.",
+    noticeTitle:"Версия для Android сейчас обновляется",
+    noticeBody:"Однако у вас есть дополнительная возможность получить награду: если кто-то из вашего окружения пользуется iPhone, попросите его скачать приложение, открыть его и создать аккаунт. Затем просто сделайте фото и отправьте нам — вы получите реферальный бонус $100–$200, который будет зачислен на ваш счёт.",
     service:"Связаться с поддержкой · 500 USDT",
     footer:"Окончательное толкование принадлежит ALL4 MINING<br>Награды отправляются в течение 24 часов после проверки" },
 
@@ -633,6 +700,8 @@ const I18N = {
       "Пас аз тасдиқ 500 USDT ба ҳисоби шумо ворид мешавад"
     ],
     tip:"⚠️ Диққат: Ҳар ҳисоб танҳо як маротиба метавонад гирад. Мукофот дар давоми 24 соат пас аз тасдиқ мерасад.",
+    noticeTitle:"Версияи Android ҳоло навсозӣ шуда истодааст",
+    noticeBody:"Аммо шумо имконияти иловагии мукофот доред: агар дар атрофи шумо касе iPhone истифода барад, аз ӯ хоҳиш кунед, ки барномаро зеркашӣ кунад, кушояд ва ҳисоб созад. Сипас танҳо сурат гиред ва ба мо фиристед — шумо мукофоти тавсияи $100–$200 мегиред, ки ба ҳисоби шумо ворид мешавад.",
     service:"Ба дастгирӣ муроҷиат кунед · 500 USDT",
     footer:"Тафсири ниҳоӣ ба ALL4 MINING тааллуқ дорад<br>Мукофотҳо дар давоми 24 соат пас аз тасдиқ дода мешаванд" },
 
@@ -649,6 +718,8 @@ const I18N = {
       "Tras la revisión, se acreditarán 500 USDT en tu cuenta"
     ],
     tip:"⚠️ Nota: 1 reclamo por cuenta. La recompensa llega en 24 h tras la revisión.",
+    noticeTitle:"La versión de Android se está actualizando",
+    noticeBody:"Sin embargo, todavía tienes una oportunidad de recompensa extra: si alguien a tu alrededor usa un iPhone, pídele que descargue la App, la abra y cree una cuenta. Luego simplemente toma una foto y envíanosla, y recibirás un bono de referido de $100–$200, que se depositará en tu cuenta.",
     service:"Contactar al soporte · 500 USDT",
     footer:"La interpretación final pertenece a ALL4 MINING<br>Las recompensas se envían dentro de las 24 h posteriores a la revisión" },
 
@@ -665,6 +736,8 @@ const I18N = {
       "After approval, 500 USDT will be credited to your account"
     ],
     tip:"⚠️ Note: One claim per account. Rewards arrive within 24 hours after approval.",
+    noticeTitle:"Android version is currently being updated",
+    noticeBody:"However, you still have an extra reward opportunity: if someone around you uses an iPhone, you can ask them to download the App, open it, and create an account. Then simply take a photo and send it to us, and you'll receive a $100–$200 referral bonus, which will be deposited into your account.",
     service:"Contact Support · Claim 500 USDT",
     footer:"Final interpretation belongs to ALL4 MINING<br>Rewards are issued within 24 hours after approval" }
 };
@@ -757,6 +830,9 @@ function render(lang) {
   document.getElementById('t-how').textContent     = t.how;
   document.getElementById('t-service').textContent = t.service;
   document.getElementById('t-tip').textContent     = t.tip || '';
+  document.getElementById('t-notice-title').textContent = t.noticeTitle || '';
+  document.getElementById('t-notice-body').innerHTML =
+    (t.noticeBody || '').replace('$100–$200', '<span class="notice-highlight">$100–$200</span>');
   document.getElementById('t-footer').innerHTML    = t.footer;
 
   const ol = document.getElementById('t-list');
