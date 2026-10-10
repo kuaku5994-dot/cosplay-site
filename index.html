@@ -33,7 +33,6 @@
     position: relative;
   }
 
-  /* ============ 顶部：Logo + 语言 ============ */
   .topbar {
     width: 100%;
     display: flex;
@@ -43,105 +42,44 @@
     gap: 10px;
   }
 
-  .logo {
-    display: flex;
-    align-items: center;
-    flex: 0 1 auto;
-    min-width: 0;
-  }
-  .logo img {
-    height: 44px;
-    width: auto;
-    display: block;
-    object-fit: contain;
-  }
+  .logo { display: flex; align-items: center; flex: 0 1 auto; min-width: 0; }
+  .logo img { height: 44px; width: auto; display: block; object-fit: contain; }
 
-  .actions {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    flex: 0 0 auto;
-  }
+  .actions { display: flex; align-items: center; gap: 14px; flex: 0 0 auto; }
 
   .lang-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 16px;
-    font-weight: 600;
-    color: #1a1d2e;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 6px 4px;
-    position: relative;
+    display: flex; align-items: center; gap: 8px;
+    font-size: 16px; font-weight: 600; color: #1a1d2e;
+    background: transparent; border: none; cursor: pointer;
+    padding: 6px 4px; position: relative;
   }
-  .lang-btn .globe {
-    width: 24px; height: 24px;
-    flex: 0 0 24px;
-    color: #111;
-  }
-  .lang-btn .arrow {
-    width: 12px; height: 12px;
-    flex: 0 0 12px;
-    color: #111;
-    margin-left: 2px;
-  }
+  .lang-btn .globe { width: 24px; height: 24px; flex: 0 0 24px; color: #111; }
+  .lang-btn .arrow { width: 12px; height: 12px; flex: 0 0 12px; color: #111; margin-left: 2px; }
 
-  .hamburger {
-    width: 26px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    cursor: pointer;
-  }
-  .hamburger span {
-    display: block;
-    height: 3px;
-    background: #111;
-    border-radius: 2px;
-  }
+  .hamburger { width: 26px; display: flex; flex-direction: column; gap: 6px; cursor: pointer; }
+  .hamburger span { display: block; height: 3px; background: #111; border-radius: 2px; }
 
   .lang-menu {
-    position: absolute;
-    top: 76px;
-    right: 24px;
-    width: 220px;
-    max-height: 380px;
-    overflow-y: auto;
-    background: #fff;
-    border: 1px solid #eceef7;
-    border-radius: 14px;
+    position: absolute; top: 76px; right: 24px;
+    width: 220px; max-height: 380px; overflow-y: auto;
+    background: #fff; border: 1px solid #eceef7; border-radius: 14px;
     box-shadow: 0 12px 40px rgba(30, 40, 90, .12);
-    padding: 6px;
-    z-index: 50;
-    display: none;
+    padding: 6px; z-index: 50; display: none;
   }
   .lang-menu.open { display: block; }
   .lang-menu .item {
-    padding: 11px 14px;
-    border-radius: 10px;
-    font-size: 15px;
-    color: #1a1d2e;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 11px 14px; border-radius: 10px;
+    font-size: 15px; color: #1a1d2e; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
     transition: background .12s;
   }
   .lang-menu .item:hover { background: #f5f6fa; }
   .lang-menu .item.active {
     background: linear-gradient(135deg, #fff7e0, #fdefc4);
-    color: #8a6508;
-    font-weight: 700;
+    color: #8a6508; font-weight: 700;
   }
-  .lang-menu .item.active::after {
-    content: "✓";
-    font-size: 14px;
-    color: #b8860b;
-  }
+  .lang-menu .item.active::after { content: "✓"; font-size: 14px; color: #b8860b; }
 
-  /* ============ 内容 ============ */
   .badge {
     font-size: 13px; letter-spacing: 1px;
     color: #6d7bff;
@@ -152,28 +90,15 @@
   }
 
   .title {
-    font-size: 28px;
-    font-weight: 800;
-    line-height: 1.4;
-    text-align: center;
-    letter-spacing: .3px;
-    color: #1a1d2e;
-    margin-bottom: 4px;
+    font-size: 28px; font-weight: 800;
+    line-height: 1.4; text-align: center;
+    letter-spacing: .3px; color: #1a1d2e; margin-bottom: 4px;
   }
-  .title .title-main {
-    color: #1a1d2e;
-    font-size: 28px;
-    font-weight: 800;
-  }
+  .title .title-main { color: #1a1d2e; font-size: 28px; font-weight: 800; }
   .title .title-sub {
-    display: inline-block;
-    margin-top: 6px;
-    font-size: 28px;
-    font-weight: 800;
+    display: inline-block; margin-top: 6px; font-size: 28px; font-weight: 800;
     background: linear-gradient(90deg, #6d7bff, #4fd6ff 50%, #ff7ad9);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
   }
 
   .reward { margin-top: 14px; text-align: center; }
@@ -189,12 +114,8 @@
   }
 
   .subtitle {
-    margin-top: 12px;
-    font-size: 14px;
-    color: #6b7290;
-    text-align: center;
-    line-height: 1.7;
-    max-width: 320px;
+    margin-top: 12px; font-size: 14px; color: #6b7290;
+    text-align: center; line-height: 1.7; max-width: 320px;
   }
 
   .joined {
@@ -212,13 +133,8 @@
   @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .45; } }
   .joined b { color: #1a1d2e; font-weight: 800; font-variant-numeric: tabular-nums; }
 
-  .btns {
-    width: 100%;
-    margin-top: 36px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
+  .btns { width: 100%; margin-top: 36px; display: flex; flex-direction: column; gap: 14px; }
+
   .btn {
     width: 100%; height: 62px; border-radius: 18px;
     display: flex; align-items: center; justify-content: center; gap: 10px;
@@ -242,29 +158,113 @@
   }
   @keyframes shine { 0% { left: -60%; } 60% { left: 130%; } 100% { left: 130%; } }
 
-  /* Android 禁用状态（正在更新中） */
-  .btn-android {
-    background: #f0f1f6;
-    border: 1px solid #e3e5ee;
-    color: #9aa1ba;
-    cursor: not-allowed;
-    box-shadow: none;
-  }
-  .btn-android:active { transform: none; }
-  .btn-android .tag {
-    position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 11px;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 999px;
+  .btn-trust {
     background: #fff;
-    color: #9aa1ba;
-    border: 1px solid #e3e5ee;
-    letter-spacing: .5px;
+    border: 1.5px solid #d8e8df;
+    color: #156b42;
+    height: 56px;
+    font-size: 16px;
+    box-shadow: 0 6px 18px rgba(38, 161, 123, .10);
   }
+  .btn-trust:active { transform: scale(.98); }
+  .btn-trust svg { width: 22px; height: 22px; flex: 0 0 22px; }
+
+  /* ============ 教程弹窗 ============ */
+  .modal-mask {
+    position: fixed; inset: 0;
+    background: rgba(10, 15, 30, .55);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .modal-mask.open { display: flex; }
+
+  .modal {
+    width: 100%;
+    max-width: 480px;
+    max-height: 88vh;
+    background: #fff;
+    border-radius: 24px 24px 0 0;
+    box-shadow: 0 -12px 40px rgba(20, 30, 60, .18);
+    display: flex;
+    flex-direction: column;
+    animation: slideUp .28s cubic-bezier(.2, .8, .3, 1);
+  }
+  @keyframes slideUp {
+    from { transform: translateY(100%); }
+    to   { transform: translateY(0); }
+  }
+
+  .modal-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid #f0f2f8;
+    flex: 0 0 auto;
+  }
+  .modal-title {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 16px; font-weight: 800; color: #1a1d2e;
+  }
+  .modal-title svg { width: 20px; height: 20px; color: #26a17b; flex: 0 0 20px; }
+
+  .modal-close {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: #f5f6fa;
+    border: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: #6b7290;
+    font-size: 18px;
+    line-height: 1;
+    transition: background .15s;
+  }
+  .modal-close:active { background: #eceef7; }
+
+  .modal-body {
+    padding: 18px 20px 28px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* 图组 */
+  .trust-gallery {
+    display: grid; gap: 10px;
+  }
+  .trust-gallery.single { grid-template-columns: 1fr; }
+  .trust-gallery.two    { grid-template-columns: repeat(2, 1fr); }
+  .trust-gallery.three  { grid-template-columns: repeat(3, 1fr); }
+
+  .trust-gallery img {
+    width: 100%; display: block;
+    border-radius: 12px;
+    border: 1px solid #eceef7;
+    background: #fff;
+  }
+
+  /* 段落 */
+  .trust-explain {
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: #fafbff;
+    border: 1px solid #eceef7;
+    margin: 12px 0 22px;
+  }
+  .trust-explain:last-child { margin-bottom: 0; }
+  .trust-explain .step-head {
+    font-size: 13px; font-weight: 800; color: #156b42;
+    margin-bottom: 8px; line-height: 1.5;
+  }
+  .trust-explain p {
+    font-size: 13px; color: #5b6280;
+    line-height: 1.7; margin-bottom: 6px;
+  }
+  .trust-explain p:last-child { margin-bottom: 0; }
+  .trust-explain b { color: #1a1d2e; }
 
   .card {
     width: 100%; margin-top: 32px; padding: 22px 20px;
@@ -284,66 +284,19 @@
   .highlight { color: #ff8a00; font-weight: 700; }
 
   .card .tip {
-    margin-top: 14px;
-    padding: 10px 12px;
-    border-radius: 10px;
-    background: #fff7e0;
-    border: 1px solid #fdefc4;
-    color: #8a6508;
-    font-size: 12px;
-    line-height: 1.7;
+    margin-top: 14px; padding: 10px 12px;
+    border-radius: 10px; background: #fff7e0;
+    border: 1px solid #fdefc4; color: #8a6508;
+    font-size: 12px; line-height: 1.7;
   }
 
-  /* 安卓更新 + 推荐奖励 提示卡片 */
-  .android-notice {
-    width: 100%;
-    margin-top: 18px;
-    padding: 16px 18px;
-    border-radius: 16px;
-    background: linear-gradient(135deg, #eaf7f0, #dff5e8);
-    border: 1px solid #c4ebd5;
-    color: #1a4a32;
-    font-size: 13px;
-    line-height: 1.75;
-  }
-  .android-notice .notice-title {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-weight: 800;
-    font-size: 14px;
-    color: #156b42;
-    margin-bottom: 8px;
-  }
-  .android-notice .notice-title::before {
-    content: "";
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #26a17b;
-    box-shadow: 0 0 0 3px rgba(38, 161, 123, .18);
-    flex: 0 0 6px;
-  }
-  .android-notice .notice-highlight {
-    color: #0f7a4a;
-    font-weight: 800;
-  }
-
-  /* 联系客服按钮（青绿，USDT 同色系） */
   .btn-service {
-    margin-top: 22px;
-    width: 100%;
-    height: 58px;
+    margin-top: 22px; width: 100%; height: 58px;
     border-radius: 16px;
     background: linear-gradient(135deg, #2ec27e, #26a17b);
-    color: #fff;
-    font-size: 16px;
-    font-weight: 700;
+    color: #fff; font-size: 16px; font-weight: 700;
     text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
     box-shadow: 0 12px 28px rgba(38, 161, 123, .35);
     transition: transform .12s ease, box-shadow .12s ease;
   }
@@ -352,34 +305,25 @@
     box-shadow: 0 6px 16px rgba(38, 161, 123, .40);
   }
   .btn-service .icon {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
+    width: 26px; height: 26px; border-radius: 50%;
     background: rgba(255, 255, 255, .22);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     flex: 0 0 26px;
   }
-  .btn-service .icon svg {
-    width: 15px;
-    height: 15px;
-    color: #fff;
-  }
+  .btn-service .icon svg { width: 15px; height: 15px; color: #fff; }
 
   .footer {
     margin-top: auto; padding-top: 32px;
-    font-size: 11px; color: #a0a6bd; text-align: center; line-height: 1.8;
+    font-size: 11px; color: #a0a6bd;
+    text-align: center; line-height: 1.8;
   }
 </style>
 </head>
 <body>
 <div class="page">
 
-  <!-- 顶部：Logo + 语言/汉堡 -->
   <div class="topbar">
     <div class="logo">
-      <!-- 换成你的 logo 图片地址 -->
       <img src="logo.png" alt="ALL4 MINING">
     </div>
 
@@ -401,7 +345,6 @@
       </div>
     </div>
 
-    <!-- 语言下拉 -->
     <div class="lang-menu" id="langMenu"></div>
   </div>
 
@@ -424,7 +367,6 @@
   </div>
 
   <div class="btns">
-    <!-- iOS -->
     <a class="btn btn-ios" id="ios-btn" href="https://odfmo.nzctjvr.com/r16tHYIXn/CvvaYc4WMa7tmcgn" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" fill="currentColor">
         <path d="M16.365 1.43c0 1.14-.42 2.2-1.26 3.03-.84.83-1.9 1.25-3.03 1.25-.05-1.13.4-2.2 1.25-3.03.84-.83 1.96-1.28 3.04-1.25zM20.6 17.2c-.55 1.27-.82 1.84-1.53 2.96-.99 1.56-2.39 3.5-4.13 3.51-1.54.01-1.94-1-4.03-.99-2.09.01-2.53 1-4.07.99-1.74-.01-3.07-1.77-4.06-3.33-2.78-4.38-3.07-9.52-1.36-12.25 1.22-1.94 3.14-3.08 4.95-3.08 1.84 0 2.99 1.01 4.51 1.01 1.47 0 2.37-1.01 4.49-1.01 1.61 0 3.32.88 4.54 2.39-3.99 2.19-3.34 7.89.69 9.8z"/>
@@ -432,24 +374,13 @@
       <span id="t-ios">立即下载 iOS 版</span>
     </a>
 
-    <!-- Android：正在更新中（不可点击） -->
-    <button class="btn btn-android" disabled>
-      <svg viewBox="0 0 24 24" fill="currentColor">
-        <path d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.14-.52.38.38 0 0 0-.52.14l-1.86 3.22A11.4 11.4 0 0 0 12 8.13c-1.78 0-3.45.43-4.92 1.01L5.22 5.92a.38.38 0 0 0-.52-.14.38.38 0 0 0-.14.52l1.84 3.18C3.32 11.06 1.36 13.85 1 17.13h22c-.36-3.28-2.32-6.07-5.4-7.65zM7 14.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm10 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+    <button class="btn btn-trust" id="trustBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/>
+        <path d="M9 12l2 2 4-4"/>
       </svg>
-      <span id="t-android">Android 版</span>
-      <span class="tag" id="t-android-tag">正在更新中</span>
+      <span id="t-trust">苹果信任教程</span>
     </button>
-  </div>
-
-  <!-- Android 更新 + 推荐奖励 提示 -->
-  <div class="android-notice">
-    <div class="notice-title" id="t-notice-title">Android 版本正在更新中</div>
-    <p id="t-notice-body">
-      不过你还有一个额外奖励机会：如果你身边有人使用 iPhone，可以请他们下载 App、打开并注册账号，
-      然后拍张照片发给我们，就能获得 <span class="notice-highlight">$100–$200</span> 的推荐奖励，
-      奖励会直接存入你的账户。
-    </p>
   </div>
 
   <div class="card">
@@ -484,15 +415,72 @@
 
 </div>
 
+<!-- ============ 教程弹窗 ============ -->
+<div class="modal-mask" id="trustModal">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/>
+          <path d="M9 12l2 2 4-4"/>
+        </svg>
+        <span>苹果信任教程</span>
+      </div>
+      <button class="modal-close" id="trustClose">✕</button>
+    </div>
+
+    <div class="modal-body">
+
+      <!-- ① trust-1 + 第一段 -->
+      <div class="trust-gallery single">
+        <img src="trust-1.png" alt="Step 1">
+      </div>
+      <div class="trust-explain">
+        <div class="step-head">🔔 Tap "Install" and Go to Home Screen</div>
+        <p>Tap the blue "Install" button on the webpage.</p>
+        <p>If a pop-up appears asking "Want to install...", tap "Install" again.</p>
+        <p>Press the Home button or swipe up to return to your iPhone's Home Screen. You will see the app icon downloading (grayed out with a progress circle, or showing "Waiting...").</p>
+      </div>
+
+      <!-- ② trust-2 + trust-3 + 第二段 -->
+      <div class="trust-gallery two">
+        <img src="trust-2.png" alt="Step 2">
+        <img src="trust-3.png" alt="Step 3">
+      </div>
+      <div class="trust-explain">
+        <div class="step-head">🔔 Go to Settings to Trust the Developer</div>
+        <p>Open your iPhone's Settings.</p>
+        <p>Tap <b>General</b>.</p>
+        <p>Scroll down and tap <b>VPN &amp; Device Management</b> (on older iOS versions, this is called "Profiles &amp; Device Management" or "Device Management").</p>
+      </div>
+
+      <!-- ③ trust-4 + 5 + 6 + 第三段 -->
+      <div class="trust-gallery three">
+        <img src="trust-4.png" alt="Step 4">
+        <img src="trust-5.png" alt="Step 5">
+        <img src="trust-6.png" alt="Step 6">
+      </div>
+      <div class="trust-explain">
+        <div class="step-head">🔔 Complete the Trust Process</div>
+        <p>Under the "Enterprise App" section, you will see the developer name for the app you just installed (e.g., ALL4 MINING or a related company name from your screenshot).</p>
+        <p>Tap on that developer name.</p>
+        <p>Tap the blue <b>"Trust"</b> button.</p>
+        <p>When the confirmation pop-up appears, tap <b>"Trust"</b> again.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <script>
 /* =====================================================
-   多语言文案（14 种，含塔吉克语 tg）
+   多语言文案（14 种）
    ===================================================== */
 const I18N = {
   zh: { name:"简体中文", badge:"限时活动", title1:"下载 App", title2:"立领新人奖励",
     sub:"完成下载并登录，凭截图联系客服即可领取奖励",
     joinedPre:"已有 ", joinedSuf:" 人领取",
-    ios:"立即下载 iOS 版", android:"Android 版", androidTag:"正在更新中",
+    ios:"立即下载 iOS 版", trust:"苹果信任教程",
     how:"活动规则",
     list:[
       "点击上方按钮，下载并安装 ALL4 MINING APP",
@@ -502,15 +490,13 @@ const I18N = {
       "审核通过后，500 USDT 将发放至你的 APP 账户"
     ],
     tip:"⚠️ 温馨提示：每个账号仅限领取一次，奖励将在审核通过后 24 小时内到账。",
-    noticeTitle:"Android 版本正在更新中",
-    noticeBody:"不过你还有一个额外奖励机会：如果你身边有人使用 iPhone，可以请他们下载 App、打开并注册账号，然后拍张照片发给我们，就能获得 $100–$200 的推荐奖励，奖励会直接存入你的账户。",
     service:"联系客服领取 500 USDT",
     footer:"本活动最终解释权归 ALL4 MINING 所有<br>奖励将在审核通过后 24 小时内发放" },
 
   ko: { name:"한국어", badge:"한정 이벤트", title1:"앱 다운로드", title2:"신규 보너스 즉시 지급",
     sub:"다운로드 후 로그인하고 스크린샷을 고객센터에 보내면 됩니다",
     joinedPre:"이미 ", joinedSuf:"명이 받았어요",
-    ios:"iOS 버전 다운로드", android:"Android 버전", androidTag:"업데이트 중",
+    ios:"iOS 버전 다운로드", trust:"Apple 신뢰 가이드",
     how:"이벤트 규칙",
     list:[
       "위 버튼을 눌러 ALL4 MINING 앱을 다운로드 및 설치",
@@ -520,15 +506,13 @@ const I18N = {
       "심사 통과 후 500 USDT가 계정에 지급됩니다"
     ],
     tip:"⚠️ 안내: 계정당 1회만 수령 가능하며, 보상은 심사 통과 후 24시간 이내 지급됩니다.",
-    noticeTitle:"Android 버전이 현재 업데이트 중입니다",
-    noticeBody:"하지만 추가 보상 기회가 있습니다: 주변에 iPhone을 사용하는 분이 있다면, 그분께 앱을 다운로드하고 열어서 계정을 만들도록 요청하세요. 그런 다음 사진을 찍어 저희에게 보내주시면 $100–$200의 추천 보너스를 받으실 수 있으며, 보너스는 귀하의 계정에 입금됩니다.",
     service:"고객센터 문의 · 500 USDT 받기",
     footer:"본 이벤트의 최종 해석권은 ALL4 MINING에 있습니다<br>보상은 심사 통과 후 24시간 이내 지급됩니다" },
 
   ja: { name:"日本語", badge:"期間限定", title1:"アプリをダウンロード", title2:"新規報酬を今すぐ受取",
     sub:"ダウンロードしてログインし、スクリーンショットをサポートに送信",
     joinedPre:"すでに ", joinedSuf:" 人が受取済み",
-    ios:"iOS 版をダウンロード", android:"Android 版", androidTag:"更新中",
+    ios:"iOS 版をダウンロード", trust:"Apple 信頼ガイド",
     how:"キャンペーン規則",
     list:[
       "上のボタンから ALL4 MINING アプリをダウンロード・インストール",
@@ -538,15 +522,13 @@ const I18N = {
       "審査通過後、500 USDT がアカウントに付与されます"
     ],
     tip:"⚠️ ご注意：1 アカウントにつき 1 回のみ。報酬は審査通過後 24 時間以内に付与されます。",
-    noticeTitle:"Android 版は現在更新中です",
-    noticeBody:"ただし、追加の報酬チャンスがあります：周りに iPhone を使っている方がいれば、その方にアプリをダウンロードして開き、アカウントを作成してもらいましょう。その後、写真を撮って私たちに送っていただければ、$100–$200 の紹介ボーナスを受け取れます。ボーナスはあなたのアカウントに入金されます。",
     service:"サポートに連絡 · 500 USDT を受取る",
     footer:"本キャンペーンの最終解釈権は ALL4 MINING に帰属します<br>報酬は審査通過後 24 時間以内に付与されます" },
 
   vi: { name:"Tiếng Việt", badge:"Sự kiện giới hạn", title1:"Tải App", title2:"Nhận thưởng người mới",
     sub:"Hoàn tất tải và đăng nhập, gửi ảnh chụp màn hình cho CSKH để nhận thưởng",
     joinedPre:"Đã có ", joinedSuf:" người nhận",
-    ios:"Tải bản iOS", android:"Bản Android", androidTag:"Đang cập nhật",
+    ios:"Tải bản iOS", trust:"Hướng dẫn tin cậy Apple",
     how:"Thể lệ sự kiện",
     list:[
       "Nhấn nút phía trên để tải và cài ALL4 MINING",
@@ -556,15 +538,13 @@ const I18N = {
       "Sau khi duyệt, 500 USDT sẽ được cộng vào tài khoản"
     ],
     tip:"⚠️ Lưu ý: Mỗi tài khoản chỉ nhận 1 lần. Phần thưởng sẽ đến trong 24 giờ sau khi duyệt.",
-    noticeTitle:"Phiên bản Android đang được cập nhật",
-    noticeBody:"Tuy nhiên, bạn vẫn còn một cơ hội thưởng thêm: nếu xung quanh bạn có người dùng iPhone, hãy nhờ họ tải App, mở lên và tạo tài khoản. Sau đó chỉ cần chụp ảnh và gửi cho chúng tôi, bạn sẽ nhận được thưởng giới thiệu $100–$200, được chuyển vào tài khoản của bạn.",
     service:"Liên hệ CSKH · Nhận 500 USDT",
     footer:"Quyền giải thích cuối cùng thuộc về ALL4 MINING<br>Phần thưởng sẽ được gửi trong vòng 24 giờ sau khi duyệt" },
 
   tr: { name:"Türkçe", badge:"Sınırlı Etkinlik", title1:"Uygulamayı İndir", title2:"Yeni Üye Ödülünü Al",
     sub:"İndirip giriş yapın, ekran görüntüsünü müşteri hizmetlerine gönderin",
     joinedPre:"Şu anda ", joinedSuf:" kişi aldı",
-    ios:"iOS Sürümünü İndir", android:"Android Sürümü", androidTag:"Güncelleniyor",
+    ios:"iOS Sürümünü İndir", trust:"Apple Güven Kılavuzu",
     how:"Etkinlik Kuralları",
     list:[
       "Yukarıdaki butona tıklayarak ALL4 MINING'i indirin ve kurun",
@@ -574,15 +554,13 @@ const I18N = {
       "Onaydan sonra 500 USDT hesabınıza yatırılır"
     ],
     tip:"⚠️ Not: Hesap başına yalnızca 1 kez. Ödül, onaydan sonra 24 saat içinde gelir.",
-    noticeTitle:"Android sürümü şu anda güncelleniyor",
-    noticeBody:"Ancak ekstra bir ödül fırsatınız var: çevrenizde iPhone kullanan biri varsa, onlardan uygulamayı indirip açmalarını ve bir hesap oluşturmalarını isteyebilirsiniz. Ardından sadece bir fotoğraf çekip bize gönderin, $100–$200 tavsiye bonusu kazanın; bonus hesabınıza yatırılır.",
     service:"Müşteri Hizmetleri · 500 USDT Al",
     footer:"Bu etkinliğin nihai yorum hakkı ALL4 MINING'e aittir<br>Ödüller onaydan sonra 24 saat içinde gönderilir" },
 
   id: { name:"Bahasa Indonesia", badge:"Acara Terbatas", title1:"Unduh Aplikasi", title2:"Klaim Bonus Pengguna Baru",
     sub:"Unduh dan masuk, kirim tangkapan layar ke layanan pelanggan untuk klaim",
     joinedPre:"Sudah ", joinedSuf:" orang klaim",
-    ios:"Unduh Versi iOS", android:"Versi Android", androidTag:"Sedang diperbarui",
+    ios:"Unduh Versi iOS", trust:"Panduan Kepercayaan Apple",
     how:"Aturan Acara",
     list:[
       "Klik tombol di atas untuk mengunduh dan memasang ALL4 MINING",
@@ -592,15 +570,13 @@ const I18N = {
       "Setelah disetujui, 500 USDT akan dikreditkan ke akun Anda"
     ],
     tip:"⚠️ Catatan: Satu klaim per akun. Hadiah masuk dalam 24 jam setelah disetujui.",
-    noticeTitle:"Versi Android sedang diperbarui",
-    noticeBody:"Namun, Anda masih memiliki peluang bonus tambahan: jika ada orang di sekitar Anda yang menggunakan iPhone, minta mereka mengunduh App, membukanya, dan membuat akun. Lalu cukup ambil foto dan kirimkan kepada kami, Anda akan menerima bonus referral $100–$200, yang akan disetorkan ke akun Anda.",
     service:"Hubungi CS · Klaim 500 USDT",
     footer:"Hak interpretasi akhir milik ALL4 MINING<br>Hadiah dikirim dalam 24 jam setelah disetujui" },
 
   pt: { name:"Português", badge:"Evento Limitado", title1:"Baixe o App", title2:"Receba o Bônus de Novato",
     sub:"Baixe e faça login, envie o print ao suporte para receber",
     joinedPre:"Já ", joinedSuf:" pessoas receberam",
-    ios:"Baixar versão iOS", android:"Versão Android", androidTag:"Em atualização",
+    ios:"Baixar versão iOS", trust:"Guia de Confiança Apple",
     how:"Regras do Evento",
     list:[
       "Clique no botão acima para baixar e instalar o ALL4 MINING",
@@ -610,15 +586,13 @@ const I18N = {
       "Após aprovação, 500 USDT serão creditados na sua conta"
     ],
     tip:"⚠️ Atenção: 1 resgate por conta. O prêmio chega em até 24h após aprovação.",
-    noticeTitle:"A versão Android está sendo atualizada",
-    noticeBody:"No entanto, você ainda tem uma oportunidade extra de recompensa: se alguém ao seu redor usa iPhone, peça para baixar o App, abrir e criar uma conta. Depois, basta tirar uma foto e nos enviar, e você receberá um bônus de indicação de $100–$200, que será depositado na sua conta.",
     service:"Falar com suporte · Receber 500 USDT",
     footer:"A interpretação final é da ALL4 MINING<br>Os prêmios são enviados em até 24h após aprovação" },
 
   it: { name:"Italiano", badge:"Evento a Tempo Limitato", title1:"Scarica l'App", title2:"Ricevi il Bonus per Nuovi Utenti",
     sub:"Scarica e accedi, invia lo screenshot all'assistenza per ricevere",
     joinedPre:"Già ", joinedSuf:" persone hanno ricevuto",
-    ios:"Scarica versione iOS", android:"Versione Android", androidTag:"In aggiornamento",
+    ios:"Scarica versione iOS", trust:"Guida alla Fiducia Apple",
     how:"Regole dell'Evento",
     list:[
       "Clicca il pulsante sopra per scaricare e installare ALL4 MINING",
@@ -628,15 +602,13 @@ const I18N = {
       "Dopo l'approvazione, 500 USDT saranno accreditati sul tuo conto"
     ],
     tip:"⚠️ Nota: 1 richiesta per account. Il premio arriva entro 24h dall'approvazione.",
-    noticeTitle:"La versione Android è in aggiornamento",
-    noticeBody:"Tuttavia, hai ancora un'opportunità di ricompensa extra: se qualcuno intorno a te usa un iPhone, chiedigli di scaricare l'App, aprirla e creare un account. Poi scatta semplicemente una foto e inviacela, riceverai un bonus referral di $100–$200, che verrà depositato sul tuo conto.",
     service:"Contatta il supporto · Ricevi 500 USDT",
     footer:"L'interpretazione finale spetta ad ALL4 MINING<br>I premi vengono inviati entro 24h dall'approvazione" },
 
   fr: { name:"Français", badge:"Événement Limité", title1:"Télécharger l'App", title2:"Recevez le Bonus Nouveau Membre",
     sub:"Téléchargez et connectez-vous, envoyez la capture au support pour recevoir",
     joinedPre:"Déjà ", joinedSuf:" personnes ont reçu",
-    ios:"Télécharger la version iOS", android:"Version Android", androidTag:"Mise à jour",
+    ios:"Télécharger la version iOS", trust:"Guide de Confiance Apple",
     how:"Règles de l'Événement",
     list:[
       "Cliquez sur le bouton ci-dessus pour télécharger et installer ALL4 MINING",
@@ -646,15 +618,13 @@ const I18N = {
       "Après validation, 500 USDT seront crédités sur votre compte"
     ],
     tip:"⚠️ Remarque : 1 réclamation par compte. La récompense arrive sous 24h après validation.",
-    noticeTitle:"La version Android est en cours de mise à jour",
-    noticeBody:"Cependant, vous avez encore une opportunité de récompense supplémentaire : si quelqu'un autour de vous utilise un iPhone, demandez-lui de télécharger l'App, de l'ouvrir et de créer un compte. Ensuite, prenez simplement une photo et envoyez-la-nous, et vous recevrez un bonus de parrainage de $100–$200, qui sera déposé sur votre compte.",
     service:"Contacter le support · Recevoir 500 USDT",
     footer:"L'interprétation finale appartient à ALL4 MINING<br>Les récompenses sont envoyées sous 24h après validation" },
 
   de: { name:"Deutsch", badge:"Begrenzte Aktion", title1:"App Herunterladen", title2:"Neukunden-Bonus Erhalten",
     sub:"Herunterladen und anmelden, Screenshot an den Support senden",
     joinedPre:"Bereits ", joinedSuf:" Nutzer haben erhalten",
-    ios:"iOS-Version herunterladen", android:"Android-Version", androidTag:"Wird aktualisiert",
+    ios:"iOS-Version herunterladen", trust:"Apple Vertrauens-Anleitung",
     how:"Aktionsregeln",
     list:[
       "Klicken Sie oben, um ALL4 MINING herunterzuladen und zu installieren",
@@ -664,15 +634,13 @@ const I18N = {
       "Nach Prüfung werden 500 USDT auf Ihr Konto gutgeschrieben"
     ],
     tip:"⚠️ Hinweis: 1 Anspruch pro Konto. Die Belohnung kommt innerhalb von 24 Std. nach Prüfung.",
-    noticeTitle:"Die Android-Version wird derzeit aktualisiert",
-    noticeBody:"Sie haben jedoch noch eine zusätzliche Belohnungsmöglichkeit: Wenn jemand in Ihrer Umgebung ein iPhone benutzt, bitten Sie ihn, die App herunterzuladen, zu öffnen und ein Konto zu erstellen. Machen Sie dann einfach ein Foto und senden Sie es uns – Sie erhalten einen Empfehlungsbonus von $100–$200, der auf Ihrem Konto gutgeschrieben wird.",
     service:"Support kontaktieren · 500 USDT",
     footer:"Die endgültige Auslegung liegt bei ALL4 MINING<br>Belohnungen werden innerhalb von 24 Stunden nach Prüfung gesendet" },
 
   ru: { name:"Русский", badge:"Ограниченная акция", title1:"Скачать приложение", title2:"Получить бонус новичка",
     sub:"Скачайте и войдите, отправьте скриншот в поддержку для получения",
     joinedPre:"Уже ", joinedSuf:" человек получили",
-    ios:"Скачать версию iOS", android:"Версия Android", androidTag:"Обновляется",
+    ios:"Скачать версию iOS", trust:"Инструкция по доверию Apple",
     how:"Правила акции",
     list:[
       "Нажмите кнопку выше, чтобы скачать и установить ALL4 MINING",
@@ -682,15 +650,13 @@ const I18N = {
       "После проверки 500 USDT будет зачислено на ваш счёт"
     ],
     tip:"⚠️ Внимание: одна заявка на аккаунт. Награда приходит в течение 24 часов после проверки.",
-    noticeTitle:"Версия для Android сейчас обновляется",
-    noticeBody:"Однако у вас есть дополнительная возможность получить награду: если кто-то из вашего окружения пользуется iPhone, попросите его скачать приложение, открыть его и создать аккаунт. Затем просто сделайте фото и отправьте нам — вы получите реферальный бонус $100–$200, который будет зачислен на ваш счёт.",
     service:"Связаться с поддержкой · 500 USDT",
     footer:"Окончательное толкование принадлежит ALL4 MINING<br>Награды отправляются в течение 24 часов после проверки" },
 
   tg: { name:"Тоҷикӣ", badge:"Чорабинии маҳдуд", title1:"Барномаро зеркашӣ кунед", title2:"Мукофоти навкоронро гиред",
     sub:"Зеркашӣ кунед ва ворид шавед, скриншотро ба дастгирӣ фиристед",
     joinedPre:"Аллакай ", joinedSuf:" нафар гирифтанд",
-    ios:"Версияи iOS-ро зеркашӣ кунед", android:"Версияи Android", androidTag:"Навсозӣ шуда истодааст",
+    ios:"Версияи iOS-ро зеркашӣ кунед", trust:"Дастури эътимоди Apple",
     how:"Қоидаҳои чорабинӣ",
     list:[
       "Тугмаи болоро пахш кунед ва ALL4 MINING-ро зеркашӣ ва насб кунед",
@@ -700,15 +666,13 @@ const I18N = {
       "Пас аз тасдиқ 500 USDT ба ҳисоби шумо ворид мешавад"
     ],
     tip:"⚠️ Диққат: Ҳар ҳисоб танҳо як маротиба метавонад гирад. Мукофот дар давоми 24 соат пас аз тасдиқ мерасад.",
-    noticeTitle:"Версияи Android ҳоло навсозӣ шуда истодааст",
-    noticeBody:"Аммо шумо имконияти иловагии мукофот доред: агар дар атрофи шумо касе iPhone истифода барад, аз ӯ хоҳиш кунед, ки барномаро зеркашӣ кунад, кушояд ва ҳисоб созад. Сипас танҳо сурат гиред ва ба мо фиристед — шумо мукофоти тавсияи $100–$200 мегиред, ки ба ҳисоби шумо ворид мешавад.",
     service:"Ба дастгирӣ муроҷиат кунед · 500 USDT",
     footer:"Тафсири ниҳоӣ ба ALL4 MINING тааллуқ дорад<br>Мукофотҳо дар давоми 24 соат пас аз тасдиқ дода мешаванд" },
 
   es: { name:"Español", badge:"Evento Limitado", title1:"Descargar la App", title2:"Recibe el Bono de Novato",
     sub:"Descarga e inicia sesión, envía la captura al soporte para recibir",
     joinedPre:"Ya ", joinedSuf:" personas recibieron",
-    ios:"Descargar versión iOS", android:"Versión Android", androidTag:"Actualizando",
+    ios:"Descargar versión iOS", trust:"Guía de Confianza Apple",
     how:"Reglas del Evento",
     list:[
       "Haz clic en el botón de arriba para descargar e instalar ALL4 MINING",
@@ -718,15 +682,13 @@ const I18N = {
       "Tras la revisión, se acreditarán 500 USDT en tu cuenta"
     ],
     tip:"⚠️ Nota: 1 reclamo por cuenta. La recompensa llega en 24 h tras la revisión.",
-    noticeTitle:"La versión de Android se está actualizando",
-    noticeBody:"Sin embargo, todavía tienes una oportunidad de recompensa extra: si alguien a tu alrededor usa un iPhone, pídele que descargue la App, la abra y cree una cuenta. Luego simplemente toma una foto y envíanosla, y recibirás un bono de referido de $100–$200, que se depositará en tu cuenta.",
     service:"Contactar al soporte · 500 USDT",
     footer:"La interpretación final pertenece a ALL4 MINING<br>Las recompensas se envían dentro de las 24 h posteriores a la revisión" },
 
   en: { name:"English", badge:"Limited Event", title1:"Download the App", title2:"Claim Your Newcomer Bonus",
     sub:"Download and log in, send a screenshot to support to claim",
     joinedPre:"", joinedSuf:" people have claimed",
-    ios:"Download iOS Version", android:"Android Version", androidTag:"Updating",
+    ios:"Download iOS Version", trust:"Apple Trust Guide",
     how:"Event Rules",
     list:[
       "Tap the button above to download and install ALL4 MINING",
@@ -736,26 +698,16 @@ const I18N = {
       "After approval, 500 USDT will be credited to your account"
     ],
     tip:"⚠️ Note: One claim per account. Rewards arrive within 24 hours after approval.",
-    noticeTitle:"Android version is currently being updated",
-    noticeBody:"However, you still have an extra reward opportunity: if someone around you uses an iPhone, you can ask them to download the App, open it, and create an account. Then simply take a photo and send it to us, and you'll receive a $100–$200 referral bonus, which will be deposited into your account.",
     service:"Contact Support · Claim 500 USDT",
     footer:"Final interpretation belongs to ALL4 MINING<br>Rewards are issued within 24 hours after approval" }
 };
 
-/* 语言顺序（tg 放在 ru 后面） */
 const LANG_ORDER = ['zh','ko','ja','vi','tr','id','pt','it','fr','de','ru','tg','es','en'];
 const FALLBACK = 'en';
 
-/* =====================================================
-   国家 → 语言 映射（IP 判断用）
-   ===================================================== */
 const COUNTRY_TO_LANG = {
   CN:'zh', SG:'zh', MY:'zh', HK:'zh', MO:'zh', TW:'zh',
-  KR:'ko',
-  JP:'ja',
-  VN:'vi',
-  TR:'tr',
-  ID:'id',
+  KR:'ko', JP:'ja', VN:'vi', TR:'tr', ID:'id',
   PT:'pt', BR:'pt', AO:'pt', MZ:'pt', CV:'pt',
   IT:'it',
   FR:'fr', BE:'fr', SN:'fr', CI:'fr', CM:'fr', ML:'fr', BF:'fr', NE:'fr', TG:'fr',
@@ -767,25 +719,14 @@ const COUNTRY_TO_LANG = {
   US:'en', GB:'en', AU:'en', NZ:'en', IE:'en', ZA:'en', PH:'en', IN:'en'
 };
 
-/* =====================================================
-   语言检测优先级：
-   1) URL ?lang=xx
-   2) localStorage 记忆
-   3) IP 判断（异步）
-   4) 浏览器语言
-   5) en 兜底
-   ===================================================== */
 function detectLangSync() {
   const urlLang = new URLSearchParams(location.search).get('lang');
   if (urlLang && I18N[urlLang]) return urlLang;
-
   const saved = localStorage.getItem('a4m_lang');
   if (saved && I18N[saved]) return saved;
-
   const raw = (navigator.language || navigator.userLanguage || '').toLowerCase();
   const short = raw.split('-')[0];
   if (I18N[short]) return short;
-
   return FALLBACK;
 }
 
@@ -793,7 +734,6 @@ function detectLangByIP(currentLang) {
   const urlLang = new URLSearchParams(location.search).get('lang');
   if (urlLang && I18N[urlLang]) return;
   if (localStorage.getItem('a4m_lang')) return;
-
   fetch('https://ipapi.co/json/')
     .then(function (r) { return r.json(); })
     .then(function (data) {
@@ -806,12 +746,9 @@ function detectLangByIP(currentLang) {
         });
       }
     })
-    .catch(function () { /* IP 失败静默忽略 */ });
+    .catch(function () {});
 }
 
-/* =====================================================
-   渲染
-   ===================================================== */
 function render(lang) {
   const t = I18N[lang];
   if (!t) return;
@@ -825,14 +762,10 @@ function render(lang) {
   document.getElementById('t-joined-pre').textContent = t.joinedPre;
   document.getElementById('t-joined-suf').textContent = t.joinedSuf;
   document.getElementById('t-ios').textContent     = t.ios;
-  document.getElementById('t-android').textContent = t.android;
-  document.getElementById('t-android-tag').textContent = t.androidTag || '';
+  document.getElementById('t-trust').textContent   = t.trust || 'Apple Trust Guide';
   document.getElementById('t-how').textContent     = t.how;
   document.getElementById('t-service').textContent = t.service;
   document.getElementById('t-tip').textContent     = t.tip || '';
-  document.getElementById('t-notice-title').textContent = t.noticeTitle || '';
-  document.getElementById('t-notice-body').innerHTML =
-    (t.noticeBody || '').replace('$100–$200', '<span class="notice-highlight">$100–$200</span>');
   document.getElementById('t-footer').innerHTML    = t.footer;
 
   const ol = document.getElementById('t-list');
@@ -867,43 +800,52 @@ function buildLangMenu(current) {
     });
     menu.appendChild(div);
   });
-
   const btn = document.getElementById('langBtn');
   btn.addEventListener('click', function (e) {
     e.stopPropagation();
     menu.classList.toggle('open');
   });
-  document.addEventListener('click', function () {
-    menu.classList.remove('open');
-  });
+  document.addEventListener('click', function () { menu.classList.remove('open'); });
   menu.addEventListener('click', function (e) { e.stopPropagation(); });
 }
 
-/* =====================================================
-   已领取人数（方案 D-1：基于时间算，所有人一致）
-   - 起点：2026-01-01
-   - 初始：12000
-   - 每天增长 80~150 人（当天固定）
-   - 刷新不跳，所有人当天一致
-   ===================================================== */
+/* 已领取人数 */
 const JOINED_BASE  = 12000;
 const JOINED_START = new Date('2026-01-01T00:00:00').getTime();
 const DAY_MS       = 86400000;
 
 function calcJoined() {
   const days = Math.floor((Date.now() - JOINED_START) / DAY_MS);
-  if (days < 0) return JOINED_BASE;             // 起点之前，直接用基数
-  const seed  = days * 137 + (days % 5) * 29;   // 稳定伪随机
-  const daily = 80 + (seed % 71);               // 80 ~ 150
+  if (days < 0) return JOINED_BASE;
+  const seed  = days * 137 + (days % 5) * 29;
+  const daily = 80 + (seed % 71);
   return JOINED_BASE + days * 115 + (daily - 115);
 }
-
 function renderJoined() {
   document.getElementById('joinedNum').textContent = calcJoined().toLocaleString();
 }
-
 renderJoined();
 setInterval(renderJoined, 30000);
+
+/* ============ 苹果信任教程弹窗 ============ */
+(function setupTrustModal() {
+  const modal = document.getElementById('trustModal');
+  const btn   = document.getElementById('trustBtn');
+  const close = document.getElementById('trustClose');
+
+  btn.addEventListener('click', function () {
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+  function hide() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  close.addEventListener('click', hide);
+  modal.addEventListener('click', function (e) {
+    if (e.target === modal) hide();
+  });
+})();
 
 /* 启动 */
 (function init() {
